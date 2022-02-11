@@ -1,0 +1,88 @@
+.movie {
+    /*border: white solid 3px;*/
+    background-color: bisque;
+    border-radius: 10px;
+    box-shadow: 0 0 3px 3px dimgrey;
+}
+
+.movie-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+}
+
+.movie:hover{
+    box-shadow: 0 0 5px 5px white;
+}
+
+.movie a {
+    text-decoration: none;
+    color: black;
+}
+
+.movie-image img {
+    border-radius: 7px;
+    box-shadow: 0 0 5px 5px black;
+}
+
+.movie-release-year {
+    font-family: "Agency FB", serif;
+    font-weight: bold;
+}
+
+.movie-title {
+    font-weight: bold;
+    font-family: "Britannic Bold", serif;
+    font-size: 20px;
+    text-align: center;
+    padding: 10px 15px;
+    background-color: white;
+    border-radius: 30px;
+    border-bottom: black solid 1px;
+    width: fit-content;
+
+}
+
+.movie-vote {
+    display: flex;
+    font-family: "Agency FB", serif;
+    column-gap: 5px;
+    background-color: #eabc49;
+    padding: 2px 5px 1px 8px;
+    border-radius: 4px;
+    border-bottom: black solid 1px;
+
+}
+
+.movie-vote-average {
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.movie-vote-count {
+    font-size: 15px;
+}
+
+.movie-genres {
+    display: flex;
+    justify-content: start;
+    column-gap: 8px;
+    padding: 20px 10px 10px 10px;
+    flex-wrap: wrap;
+    row-gap: 3px;
+}
+
+.movie-genre {
+    padding: 3px 5px;
+    background-color: cornflowerblue;
+    color: white;
+    box-shadow: 0 0 3px 3px cornflowerblue;
+}
+
+.movie-body {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    column-gap: 35px;
+}

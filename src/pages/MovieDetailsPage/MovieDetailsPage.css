@@ -1,0 +1,8 @@
+.movie-details-short {
+    display: flex;
+    flex-direction: column;
+    border: black solid 1px;
+    margin: 20px;
+    row-gap: 10px;
+}
+

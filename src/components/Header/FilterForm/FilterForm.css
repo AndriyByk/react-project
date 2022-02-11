@@ -1,0 +1,37 @@
+.filter-form {
+    background-color: black;
+    padding: 5px;
+    color: grey;
+}
+
+.filter-form-inputs {
+    width: 90%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.filter-form-inputs input {
+    background-color: #3b3b3b;
+    color: white;
+}
+
+.button button{
+    width: 70px;
+    height: 40px;
+}
+
+.filter-form-body {
+    display: flex;
+    justify-content: space-around;
+}
+
+.filter-form-input-genre {
+    display: flex;
+    /*flex-direction: column;*/
+    /*justify-content: start;*/
+}
+
+.filter-form-input-keywords {
+    display: flex;
+    align-items: center;
+}

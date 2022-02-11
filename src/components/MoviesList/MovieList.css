@@ -1,0 +1,14 @@
+.movie-list {
+    border: black solid 1px;
+    display: flex;
+    column-gap: 5%;
+    row-gap: 20px;
+    overflow-y: auto;
+    flex: 1;
+
+    background-color: black;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+}

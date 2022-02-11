@@ -1,0 +1,125 @@
+.movie-details-full {
+    display: flex;
+    background-color: black;
+    z-index: -500;
+     max-height: 100vh;
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+.movie-details-full-info {
+    /*background-color: black;*/
+    color: white;
+    width: 50vw;
+    padding: 0 4%;
+    box-sizing: border-box;
+    margin-top: 20px;
+}
+
+.movie-details-full-image img {
+    position: absolute;
+    max-height: 100vh;
+   border-radius: 10%;
+
+}
+
+.movie-details-full-title {
+    font-size: 40px;
+    font-family: Cambria, sans-serif;
+    text-align: center;
+    border-radius: revert;
+    text-shadow: 5px 5px 8px red, 0 0 1em blue, 0 0 0.2em blue;
+}
+
+.movie-details-full-original_title {
+    text-align: center;
+    padding: 10px;
+}
+
+.movie-details-full-release_runtime {
+    display: flex;
+    justify-content: space-around;
+}
+
+.movie-details-full-genres {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 20px;
+}
+
+.movie-details-full-genre {
+    border: white solid 1px;
+    border-radius: 10px;
+    padding: 5px;
+    font-size: 17px;
+}
+
+.movie-details-full-overview {
+    padding: 10px;
+    font-family: Cambria, serif;
+}
+
+
+.movie-details-full-homepage {
+    text-align: center;
+    padding: 20px;
+}
+.movie-details-full-homepage a{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+
+}
+
+.movie-details-full-companies {
+    display: flex;
+    padding: 10px;
+}
+
+.movie-details-full-companies-title {
+    padding: 10px;
+}
+
+.movie-details-full-companies-list {
+    padding: 10px;
+}
+
+.movie-details-full-countries {
+    display: flex;
+    padding: 10px;
+}
+
+.movie-details-full-countries-title {
+    padding: 10px;
+}
+
+.movie-details-full-countries-list {
+    padding: 10px;
+}
+
+.movie-details-full-language_budget {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.movie-details-full-budget {
+    text-align: end;
+    padding: 5px;
+
+}
+
+.movie-details-full-language {
+    text-align: end;
+    padding: 5px;
+}
+
+.movie-details-full-vote {
+    padding: 20px;
+    display: flex;
+    justify-content: end;
+    font-size: 30px;
+}
+
+
+
+
