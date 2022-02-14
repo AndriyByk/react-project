@@ -35,6 +35,7 @@
     font-size: 200%;
     font-family: "Agency FB", sans-serif;
     font-weight: bold;
+    color: black;
 }
 
 .movie-details-short-body {
@@ -85,4 +86,8 @@
 
 .movie-details-short-link:hover {
     box-shadow: 0 0 15px 5px black;
+}
+
+.movie-details-short-overview {
+    color: black;
 }
