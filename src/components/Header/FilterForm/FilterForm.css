@@ -25,6 +25,7 @@
     background-color: transparent;
     box-shadow: 0 0 5px 1px black;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 .filter-form-body {

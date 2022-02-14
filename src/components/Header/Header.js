@@ -10,7 +10,7 @@ const Header = () => {
                 MovieCO
             </div>
             <div className={'user'}>
-                Profile
+                User
             </div>
         </div>
     );
