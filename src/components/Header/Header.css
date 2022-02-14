@@ -1,0 +1,41 @@
+.header {
+    background-color: transparent;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.user {
+    height: 50px;
+    border-radius: 20px;
+    background-color: transparent;
+    padding: 0 10px 0 10px;
+    color: black;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    text-shadow: 0 0 5px white;
+    font-size: 25px;
+    box-shadow: 0 0 5px 1px black;
+    font-family: "Agency FB", sans-serif;
+}
+
+.user:hover {
+    box-shadow: 0 0 5px 5px white;
+    cursor: pointer;
+    background-color: white;
+}
+
+.site-logo {
+    font-size: 40px;
+    font-family: "Agency FB", sans-serif;
+    text-shadow: 5px 5px 10px blue;
+    padding: 0 20px;
+}

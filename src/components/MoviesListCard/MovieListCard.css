@@ -20,10 +20,18 @@
     text-decoration: none;
     color: black;
 }
+.movie-image {
+    min-width: 300px;
+    min-height: 169px;
+}
 
 .movie-image img {
     border-radius: 7px;
     box-shadow: 0 0 5px 5px black;
+}
+
+.movie-image div {
+    font-style: italic;
 }
 
 .movie-release-year {
@@ -85,4 +93,9 @@
     justify-content: space-between;
     padding: 10px;
     column-gap: 35px;
+}
+.movie-details-page {
+    box-sizing: border-box;
+    width: 93vw;
+    height: 80vh;
 }

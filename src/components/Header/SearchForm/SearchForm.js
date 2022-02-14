@@ -1,52 +1,38 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
 
-import {getSearchedMovies} from "../../../store/slices/movies.slice";
 import './SearchForm.css';
+import {
+    getNextSearchedMovies, getPreviousSearchedMovies,
+    getSearchedMovies, saveDataFromInput,
+} from "../../../store/slices/movies.slice";
 
 const SearchForm = () => {
-const {movies_results, page_counter} = useSelector(state => state['movieReducer']);
-    const {register, handleSubmit, getValues, formState: {errors}} = useForm();
+    const {movies_results, actual_page, searched_query} = useSelector(state => state['movieReducer']);
+    const {register, handleSubmit, formState: {errors}} = useForm();
     const dispatch = useDispatch();
 
     const takeSearchInfo = (data) => {
-
-
-        console.log(data);
-        const state = getValues()
-        const value = {name: state}
-        console.log(value);
-        if (!data) {
-            dispatch(getSearchedMovies({data: value, page_counter}));
-        } else {
-            dispatch(getSearchedMovies({data, counter}));
-        }
+        dispatch(saveDataFromInput({data}));
+        dispatch(getSearchedMovies({data, actual_page}));
     }
 
-   //////////////////
-    const [counter, setCounter] = useState(1);
+    const goNext = () => {
+        if (actual_page < movies_results.pages)
+            dispatch(getNextSearchedMovies({data: searched_query, actual_page}))
+    }
 
-    // const goFirstPage = () => {
-    //     setCounter(1);
-    // }
-    //
-    // const goAhead = () => {
-    //     setCounter(counter+1);
-    // }
-    //
-    // const goBack = () => {
-    //     setCounter(counter-1);
-    // }
-    console.log(movies_results);
-    /////////////////////
+    const goBack = () => {
+        if (actual_page > 1)
+            dispatch(getPreviousSearchedMovies({data: searched_query, actual_page}))
+    }
 
     return (
         <div className={'search-form-wrapper'}>
             <div className={'search-form'}>
                 <form>
                     <div className={'search-form-body'}>
-                        {/*<div className={'search-form-label'}>Label</div>*/}
                         <div className={'search-form-inputs'}>
                             <div className={'search-form-input-text'}>
                                 <input placeholder={'Enter movie title'} type="text"
@@ -58,17 +44,17 @@ const {movies_results, page_counter} = useSelector(state => state['movieReducer'
                 </form>
             </div>
             <div className={'pages'}>
-                <button onClick={takeSearchInfo}>1</button>
-                <button onClick={takeSearchInfo}>{counter-1}</button>
-                <div>{counter}</div>
-                <button onClick={takeSearchInfo}>{counter+1}</button>    {}
-
-                {/*<div>*/}
-                {/*    Total pages: {movies_results.pages}*/}
-                {/*</div>*/}
-                {/*<div>*/}
-                {/*    Total results: {movies_results.results}*/}
-                {/*</div>*/}
+                <button onClick={goBack}>Previous page</button>
+                <div>{actual_page}</div>
+                <button onClick={goNext}>Next page</button>
+                <div>
+                    Total pages: {movies_results.pages}
+                </div>
+                <div>
+                    Total results: {movies_results.results}
+                </div>
+                {errors && <div>{errors[0]}
+                </div>}
             </div>
         </div>
     );

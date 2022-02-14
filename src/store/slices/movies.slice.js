@@ -1,29 +1,28 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+
 import {movieService} from "../../services/movie.service/movie.service";
 import {genreService} from "../../services/genre.service/genre.service";
 import {keywordsService} from "../../services/keywords.service/keywords.service";
 
 const initialState = {
-    movies: [],
     genres: [],
     movie: {},
+    movie_short: {},
     status: null,
     error: null,
+    movies: [],
     movies_results: {pages: 0, results: 0},
-    page_counter: 1,
-    // keywords: []
+    actual_page: 1,
+    searched_query: {},
+    keywords: [],
+
 }
 
 export const getMovies = createAsyncThunk(
     'movieSlice/getMovies',
-    async (queries, {rejectWithValue, dispatch}) => {
+    async (queries, {rejectWithValue}) => {
         try {
-            const movies = movieService.getAll(queries);
-            // const {payload} = movies;
-
-            // dispatch(addMoviesResults(movies));
-            return movies;
-
+            return movieService.getAll(queries);
         } catch (e) {
             return rejectWithValue(e.message);
         }
@@ -43,53 +42,110 @@ export const getMovieById = createAsyncThunk(
 
 export const getFilteredMovies = createAsyncThunk(
     'movieSlice/getFilteredMovies',
-    async ({data, keywords}, {rejectWithValue, dispatch}) => {
+    async ({data, keywords, actual_page}, {rejectWithValue}) => {
         try {
-            let queries = '';
+            if (!data && (!keywords || keywords.length === 0))
+               return movieService.getAll();
 
-            // include_adult
-            // if (data.adults === true) {
-            //     queries = queries.concat(`include_adult=${true}`);
-            // } else {
-            //     queries = queries.concat(`include_adult=${false}`);
-            // }
+            let queries = '';
             queries = queries.concat(`include_adult=${false}`)
 
             // keywords
             if (keywords.length !== 0) {
                 queries = queries.concat(`&with_keywords=${keywords[0].id}`);
-
-                // for (let i = 0; i < keywords.length; i++) {
-                //     queries = queries.concat(keywords[i].id);
-                //     if (i !== keywords.length-1) {
-                //         queries = queries.concat(',');
-                //     }
-                // }
             }
 
             // genres
-            if (data.genre !== '' && data.genre !== null) {
+            if (data.genre !== '' && data.genre !== null && data.genre !== undefined) {
                 queries = queries.concat(`&with_genres=${data.genre}`);
             }
 
             // release date greater then
-            if (data.release_after !== '')
+            if (data.release_after !== '' && data.release_after !== undefined)
                 queries = queries.concat(`&release_date.gte=${data.release_after}`);
+
             // release date less then
-            if (data.release_before !== '')
+            if (data.release_before !== ''&& data.release_before !== undefined)
                 queries = queries.concat(`&release_date.lte=${data.release_before}`);
 
+            // page
+            if (actual_page && actual_page!==1) {
+                queries = queries.concat(`&page=${actual_page}`)
+            }
 
-            // console.log(queries);
-            const movies = movieService.getAll(queries);
-            // dispatch(addMoviesResults(movies))
-
-            return movies;
+            return movieService.getAll(queries);
         } catch (e) {
             return rejectWithValue(e.message);
         }
     }
 );
+
+export const getNextFilteredMovies = createAsyncThunk(
+    'movieSlice/getNextFilteredMovies',
+    async ({data, keywords, actual_page}, {rejectWithValue, dispatch}) => {
+        try {
+            let queries = '';
+            queries = queries.concat(`include_adult=${false}`)
+
+            // keywords
+            if (keywords && keywords.length>0)
+                queries = queries.concat(`&with_keywords=${keywords[0].id}`);
+
+            // genres
+            if (data.genre !== '' && data.genre !== null && data.genre !== undefined)
+                queries = queries.concat(`&with_genres=${data.genre}`);
+
+            // release date greater then
+            if (data.release_after !== '' && data.release_after !== undefined)
+                queries = queries.concat(`&release_date.gte=${data.release_after}`);
+
+            // release date less then
+            if (data.release_before !== '' && data.release_before !== undefined)
+                queries = queries.concat(`&release_date.lte=${data.release_before}`);
+
+            queries = queries.concat(`&page=${actual_page + 1}`)
+
+            return movieService.getAll(queries);
+        } catch (e) {
+            return rejectWithValue(e.message);
+        }
+    }
+);
+
+export const getPreviousFilteredMovies = createAsyncThunk(
+    'movieSlice/getPreviousFilteredMovies',
+    async ({data, keywords, actual_page}, {rejectWithValue, dispatch}) => {
+        try {
+            let queries = '';
+            queries = queries.concat(`include_adult=${false}`)
+
+            // keywords
+            if (keywords && keywords.length>0) {
+                queries = queries.concat(`&with_keywords=${keywords[0].id}`);
+            }
+
+            // genres
+            if (data.genre !== '' && data.genre !== null && data.genre !== undefined) {
+                queries = queries.concat(`&with_genres=${data.genre}`);
+            }
+
+            // release date greater then
+            if (data.release_after !== '' && data.release_after !== undefined)
+                queries = queries.concat(`&release_date.gte=${data.release_after}`);
+
+            // release date less then
+            if (data.release_before !== '' && data.release_before !== undefined)
+                queries = queries.concat(`&release_date.lte=${data.release_before}`);
+
+            queries = queries.concat(`&page=${actual_page-1}`)
+
+            return movieService.getAll(queries);
+        } catch (e) {
+            return rejectWithValue(e.message);
+        }
+    }
+);
+
 
 
 export const getGenres = createAsyncThunk(
@@ -107,7 +163,6 @@ export const getKeywords = createAsyncThunk(
     'movieSlice/getKeywords',
     async ({word}, {rejectWithValue}) => {
         try {
-            console.log(word);
             return keywordsService.getAll(word);
         } catch (e) {
             return rejectWithValue(e.message);
@@ -118,36 +173,51 @@ export const getKeywords = createAsyncThunk(
 
 export const getSearchedMovies = createAsyncThunk(
     'movieSlice/getSearchedMovies',
-    async ({data, counter}, {rejectWithValue, dispatch}) => {
+    async ({data, actual_page}, {rejectWithValue, dispatch}) => {
         try {
-            let query = '';
-            query = query.concat(`query=${data.name}`)
-
-            //page
-            query = query.concat(`&page=${counter}`)
-
-            console.log('ooooooooooooooo')
-
-
-
-            const movies = movieService.getByQuery(query);
-            // dispatch(addMoviesResults(movies))
-
-            return movies;
+            const query_const = `query=${data.name}&page=${actual_page}`
+            return movieService.getByQuery(query_const)
         } catch (e) {
             return rejectWithValue(e.message);
         }
     }
 );
 
+export const getNextSearchedMovies = createAsyncThunk(
+    'movieSlice/getNextSearchedMovies',
+    async ({data, actual_page}, {rejectWithValue, dispatch}) => {
+        try {
+            const query_const = `query=${data.name}&page=${actual_page+1}`
+            return movieService.getByQuery(query_const)
+        } catch (e) {
+            return rejectWithValue(e.message);
+        }
+    }
+);
+
+export const getPreviousSearchedMovies = createAsyncThunk(
+    'movieSlice/getPreviousSearchedMovies',
+    async ({data, actual_page}, {rejectWithValue, dispatch}) => {
+        try {
+            const query_const = `query=${data.name}&page=${actual_page-1}`
+            return movieService.getByQuery(query_const)
+        } catch (e) {
+            return rejectWithValue(e.message);
+        }
+    }
+)
+
 const movieSlice = createSlice({
     name: 'movieSlice',
     initialState,
     reducers: {
         clearKeywords: ((state) => {
-
             state.keywords.length = 0;
             console.log(state.keywords);
+        }),
+
+        clearActualPage: (state => {
+            state.actual_page = 1;
         }),
 
         addMoviesResults: ((state, action) => {
@@ -155,13 +225,30 @@ const movieSlice = createSlice({
                 pages: action.payload.total_pages,
                 results: action.payload.total_results
             }
-        })
-        // takeShortInfoFromState: (state => {
-        //     for (let i = 0; i < state.movies.length; i++) {
-        //
-        //     }
-        // })
+        }),
 
+        saveDataFromInput: ((state, action) => {
+            state.searched_query = action.payload.data;
+        }),
+
+        saveKeyWords: ((state, action) => {
+            state.keywords = action.payload.keyW;
+        }),
+
+        incrementPage: ((state) => {
+            if (state.actual_page <= state.movies_results.pages) {
+                state.actual_page += 1;
+            }
+        }),
+
+        decrementPage: (state => {
+            if (state.actual_page > 1)
+                state.actual_page -= 1;
+        }),
+
+        saveMovieShort: ((state, action) => {
+             state.movie_short = action.payload.movie_short
+        })
     },
     extraReducers: {
         [getMovies.pending]: (state) => {
@@ -174,7 +261,6 @@ const movieSlice = createSlice({
                 pages: action.payload.total_pages,
                 results: action.payload.total_results
             }
-            // console.log(state.movies);
         },
         [getMovies.rejected]: (state, action) => {
             state.status = 'rejected'
@@ -213,13 +299,11 @@ const movieSlice = createSlice({
         },
         [getFilteredMovies.fulfilled]: (state, action) => {
             state.status = 'fulfilled';
-            // console.log(action.payload);
             state.movies = action.payload.results;
             state.movies_results = {
                 pages: action.payload.total_pages,
                 results: action.payload.total_results
             }
-            // console.log(state.movies);
         },
         [getFilteredMovies.rejected]: (state, action) => {
             state.status = 'rejected'
@@ -231,14 +315,11 @@ const movieSlice = createSlice({
         },
         [getSearchedMovies.fulfilled]: (state, action) => {
             state.status = 'fulfilled';
-            // console.log(action.payload.results);
             state.movies = action.payload.results;
             state.movies_results = {
                 pages: action.payload.total_pages,
                 results: action.payload.total_results
             }
-
-            // console.log(state.movies);
         },
         [getSearchedMovies.rejected]: (state, action) => {
             state.status = 'rejected'
@@ -251,16 +332,76 @@ const movieSlice = createSlice({
         [getKeywords.fulfilled]: (state, action) => {
             state.status = 'fulfilled';
             state.keywords = action.payload.results;
-            console.log(state.keywords);
         },
         [getKeywords.rejected]: (state, action) => {
+            state.status = 'rejected'
+            state.error = action.payload;
+        },
+//--------------------------------------------------------
+        [getNextSearchedMovies.pending]: (state) => {
+            state.status = 'pending';
+        },
+        [getNextSearchedMovies.fulfilled]: (state, action) => {
+            state.status = 'fulfilled';
+            state.movies = action.payload.results;
+            state.actual_page = state.actual_page+1
+        },
+        [getNextSearchedMovies.rejected]: (state, action) => {
+            state.status = 'rejected'
+            state.error = action.payload;
+        },
+//--------------------------------------------------------
+        [getPreviousSearchedMovies.pending]: (state) => {
+            state.status = 'pending';
+        },
+        [getPreviousSearchedMovies.fulfilled]: (state, action) => {
+            state.status = 'fulfilled';
+            state.movies = action.payload.results;
+            state.actual_page = state.actual_page-1
+        },
+        [getPreviousSearchedMovies.rejected]: (state, action) => {
+            state.status = 'rejected'
+            state.error = action.payload;
+        },
+//--------------------------------------------------------
+        [getNextFilteredMovies.pending]: (state) => {
+            state.status = 'pending';
+        },
+        [getNextFilteredMovies.fulfilled]: (state, action) => {
+            state.status = 'fulfilled';
+            state.movies = action.payload.results;
+            state.actual_page = state.actual_page+1
+        },
+        [getNextFilteredMovies.rejected]: (state, action) => {
+            state.status = 'rejected'
+            state.error = action.payload;
+        },
+//--------------------------------------------------------
+        [getPreviousFilteredMovies.pending]: (state) => {
+            state.status = 'pending';
+        },
+        [getPreviousFilteredMovies.fulfilled]: (state, action) => {
+            state.status = 'fulfilled';
+            state.movies = action.payload.results;
+            state.actual_page = state.actual_page-1
+        },
+        [getPreviousFilteredMovies.rejected]: (state, action) => {
             state.status = 'rejected'
             state.error = action.payload;
         },
     }
 });
 
-export const {clearKeywords,addMoviesResults} = movieSlice.actions;
+export const {
+    clearKeywords,
+    addMoviesResults,
+    saveDataFromInput,
+    decrementPage,
+    incrementPage,
+    clearActualPage,
+    saveKeyWords,
+    saveMovieShort,
+} = movieSlice.actions;
 
 const movieReducer = movieSlice.reducer;
 export {movieReducer};

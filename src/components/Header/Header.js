@@ -1,12 +1,16 @@
 import React from 'react';
-import FilterForm from "./FilterForm/FilterForm";
-import SearchForm from "./SearchForm/SearchForm";
+
+import './Header.css';
 
 const Header = () => {
     return (
         <div className={'header'}>
-            <SearchForm/>
-            {/*<FilterForm/>*/}
+            <div className={'site-logo'}>
+                MovieCO
+            </div>
+            <div className={'user'}>
+                Profile
+            </div>
         </div>
     );
 };

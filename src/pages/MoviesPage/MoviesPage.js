@@ -8,8 +8,7 @@ const MoviesPage = () => {
     return (
         <div className={'movies-page'}>
             <Header/>
-            <Memory/>
-            {/*<MovieList/>*/}
+            <MovieList/>
             <Footer/>
         </div>
     );

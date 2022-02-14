@@ -52,7 +52,7 @@ const MoviesListCard = ({movie}) => {
             <Link to={`/${movie.id}`} state={{movie}}>
                 {movie.id !== +id &&
                 <div className={'movie-wrapper'}>
-                    <div className={'movie-image'}><img src={baseImgURL + imgSize.logo_w300 + movie.backdrop_path} alt=""/></div>
+                    <div className={'movie-image'}>{(movie.backdrop_path &&<img src={baseImgURL + imgSize.logo_w300 + movie.backdrop_path} alt=""/>) || <div>No picture</div>}</div>
                     <div className={'movie-title'}>{movie.title}</div>
                     <div className={'movie-body'}>
                         <div className={'movie-release-year'}>Release: {movie.release_date}</div>
@@ -67,7 +67,7 @@ const MoviesListCard = ({movie}) => {
                 </div>}
             </Link>
             {movie.id === +id &&
-            <div><Outlet/></div>
+            <div className={'movie-details-page'}><Outlet/></div>
             }
         </div>
     );

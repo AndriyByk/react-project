@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
 import {getMovieById} from "../../store/slices/movies.slice";
@@ -10,44 +10,13 @@ const MovieDetailsFull = () => {
 
     const dispatch = useDispatch();
     const {id} = useParams();
-    const {movie} = useSelector(state => state['movieReducer']);
+    const {movie, movies} = useSelector(state => state['movieReducer']);
 
-    // console.log(movie)
     useEffect(() => {
         dispatch(getMovieById({id}))
     }, [id]);
 
-
-//     adult: false
-// backdrop_path: "/iQFcwSGbZXMkeyKrxbPnwnRo5fl.jpg"
-// belongs_to_collection: Object { id: 531241, name: "Spider-Man (Avengers) Collection", poster_path: "/nogV4th2P5QWYvQIMiWHj4CFLU9.jpg", … }
-// budget: 200000000
-// genres: Array(3) [ {…}, {…}, {…} ]
-// homepage: "https://www.spidermannowayhome.movie"
-// id: 634649
-// imdb_id: "tt10872600"
-// original_language: "en"
-// original_title: "Spider-Man: No Way Home"
-// overview: "Peter Parker is unmasked and no longer able to separate his normal life from the high-stakes of being a super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man."
-// popularity: 12335.96
-// poster_path: "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg"
-// production_companies: Array(3) [ {…}, {…}, {…} ]
-// production_countries: Array [ {…} ]
-// release_date: "2021-12-15"
-//      revenue: 1775000000
-// runtime: 148
-
-// spoken_languages: Array [ {…}, {…} ]
-
-//      status: "Released"
-//      tagline: "The Multiverse unleashed."
-
-// title: "Spider-Man: No Way Home"
-
-//      video: false
-
-// vote_average: 8.4
-// vote_count: 7369
+const navigate = useNavigate();
 
     return (
         <div className={'movie-details-full'}>
@@ -105,7 +74,9 @@ const MovieDetailsFull = () => {
                 </div>
                 <div className={'movie-details-full-end'}>
                     <div className={'movie-details-full-back_button'}>
-                        <button>
+                        <button onClick={()=> {
+                            navigate(`/`)
+                        }}>
                             Back to the list!
                         </button>
                     </div>

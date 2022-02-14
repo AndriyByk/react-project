@@ -5,10 +5,10 @@
     row-gap: 20px;
     overflow-y: auto;
     flex: 1;
-
     background-color: black;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
+    padding-bottom: 150px;
 }
