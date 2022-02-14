@@ -23,7 +23,6 @@ const FilterForm = () => {
         dispatch(saveDataFromInput({data}))
         dispatch(saveKeyWords({keyW}))
         dispatch(getFilteredMovies({data, keywords: keyW, actual_page}));
-
     }
 
     const mediate = (e) => {
@@ -122,4 +121,4 @@ const FilterForm = () => {
     );
 };
 
-export default FilterForm;
+export {FilterForm};

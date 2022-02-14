@@ -1,9 +1,9 @@
 import React, {useEffect, useRef} from 'react';
 import {Link, Outlet, useLocation, useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 
 import {baseImgURL, imgSize} from "../../constants/urls/urls";
 import './MovieDetailsPage.css';
-import {useDispatch, useSelector} from "react-redux";
 import {saveMovieShort} from "../../store/slices/movies.slice";
 
 const MovieDetailsPage = () => {
@@ -11,7 +11,6 @@ const MovieDetailsPage = () => {
     const dispatch = useDispatch();
     const {id} = useParams();
     const {movies, movie_short} = useSelector(state => state['movieReducer']);
-
     const {state} = useLocation();
 
     const focus = useRef(null);
@@ -67,4 +66,4 @@ const MovieDetailsPage = () => {
     );
 };
 
-export default MovieDetailsPage;
+export {MovieDetailsPage};

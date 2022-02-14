@@ -4,24 +4,27 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {getMovieById} from "../../store/slices/movies.slice";
 import {baseImgURL, imgSize} from "../../constants/urls/urls";
-import './MovieDetailsFull.css';
+import './MovieInfo.css';
 
-const MovieDetailsFull = () => {
+const MovieInfo = () => {
 
     const dispatch = useDispatch();
     const {id} = useParams();
-    const {movie, movies} = useSelector(state => state['movieReducer']);
+    const {movie} = useSelector(state => state['movieReducer']);
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(getMovieById({id}))
     }, [id]);
 
-const navigate = useNavigate();
-
     return (
         <div className={'movie-details-full'}>
-            <div>
-
+            <div className={'movie-details-full-back_button'}>
+                <button onClick={() => {
+                    navigate(`/`)
+                }}>
+                    {`${'<<'}`}
+                </button>
             </div>
             <div className={'movie-details-full-info'}>
                 <div className={'movie-details-full-title'}>
@@ -73,13 +76,6 @@ const navigate = useNavigate();
                     <div className={'movie-details-full-budget'}>Budget: {movie.budget}</div>
                 </div>
                 <div className={'movie-details-full-end'}>
-                    <div className={'movie-details-full-back_button'}>
-                        <button onClick={()=> {
-                            navigate(`/`)
-                        }}>
-                            Back to the list!
-                        </button>
-                    </div>
                     <div className={'movie-details-full-vote'}>
                         <div className={'movie-details-full-vote_average'}>{movie.vote_average}</div>
                         <div className={'movie-details-full-vote_count'}>/{movie.vote_count}</div>
@@ -93,4 +89,4 @@ const navigate = useNavigate();
     );
 };
 
-export default MovieDetailsFull;
+export {MovieInfo};

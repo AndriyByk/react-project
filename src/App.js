@@ -1,9 +1,9 @@
 import {Route, Routes} from "react-router-dom";
 
 import './App.css';
-import MoviesPage from "./pages/MoviesPage/MoviesPage";
-import MovieDetailsPage from "./pages/MovieDetailsPage/MovieDetailsPage";
-import MovieDetailsFull from "./pages/MovieDetailsFull/MovieDetailsFull";
+import {MoviesPage} from "./pages/MoviesPage";
+import {MovieDetailsPage} from "./pages/MovieDetailsPage";
+import {MovieInfo} from "./pages/MovieInfo";
 
 function App() {
     return (
@@ -12,7 +12,7 @@ function App() {
                 <Route path={'/'} element={<MoviesPage/>}>
                     <Route path={'/:id'} element={<MovieDetailsPage/>}/>
                 </Route>
-                <Route path={':id/details'} element={<MovieDetailsFull/>}/>
+                <Route path={':id/details'} element={<MovieInfo/>}/>
             </Routes>
         </div>
     );

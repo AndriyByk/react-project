@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './Footer.css';
-import FilterForm from "../Header/FilterForm/FilterForm";
+import {FilterForm} from "../Header/FilterForm";
 
 const Footer = () => {
     return (
@@ -11,4 +11,4 @@ const Footer = () => {
     );
 };
 
-export default Footer;
+export {Footer};

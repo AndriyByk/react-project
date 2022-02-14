@@ -21,5 +21,4 @@ export const imgSize = {
     backdrop_w780: '/w780',
     backdrop_w1280: '/w1280',
     backdrop_original: '/original',
-
 }

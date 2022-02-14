@@ -1,10 +1,12 @@
 import React from 'react';
-import Header from "../../components/Header/Header";
-import MovieList, {Memory} from "../../components/MoviesList/MovieList";
-import Footer from "../../components/Footer/Footer";
 
 import './MoviesPage.css';
+import {Header} from "../../components/Header";
+import {MovieList} from "../../components/MoviesList";
+import {Footer} from "../../components/Footer";
+
 const MoviesPage = () => {
+
     return (
         <div className={'movies-page'}>
             <Header/>
@@ -14,5 +16,4 @@ const MoviesPage = () => {
     );
 };
 
-
-export default MoviesPage;
+export {MoviesPage};

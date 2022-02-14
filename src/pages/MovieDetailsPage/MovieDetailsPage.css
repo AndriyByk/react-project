@@ -38,7 +38,6 @@
 }
 
 .movie-details-short-body {
-    /*font-family: "Agency FB", sans-serif;*/
     display: flex;
     justify-content: space-between;
     color: #9b9b9b;

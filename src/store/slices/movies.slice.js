@@ -9,13 +9,11 @@ const initialState = {
     movie: {},
     movie_short: {},
     status: null,
-    error: null,
     movies: [],
     movies_results: {pages: 0, results: 0},
     actual_page: 1,
     searched_query: {},
-    keywords: [],
-
+    keywords: []
 }
 
 export const getMovies = createAsyncThunk(
@@ -82,7 +80,7 @@ export const getFilteredMovies = createAsyncThunk(
 
 export const getNextFilteredMovies = createAsyncThunk(
     'movieSlice/getNextFilteredMovies',
-    async ({data, keywords, actual_page}, {rejectWithValue, dispatch}) => {
+    async ({data, keywords, actual_page}, {rejectWithValue}) => {
         try {
             let queries = '';
             queries = queries.concat(`include_adult=${false}`)
@@ -114,10 +112,10 @@ export const getNextFilteredMovies = createAsyncThunk(
 
 export const getPreviousFilteredMovies = createAsyncThunk(
     'movieSlice/getPreviousFilteredMovies',
-    async ({data, keywords, actual_page}, {rejectWithValue, dispatch}) => {
+    async ({data, keywords, actual_page}, {rejectWithValue}) => {
         try {
             let queries = '';
-            queries = queries.concat(`include_adult=${false}`)
+            queries = queries.concat(`include_adult=${false}`);
 
             // keywords
             if (keywords && keywords.length>0) {
@@ -146,8 +144,6 @@ export const getPreviousFilteredMovies = createAsyncThunk(
     }
 );
 
-
-
 export const getGenres = createAsyncThunk(
     'movieSlice/getGenres',
     async (_, {rejectWithValue}) => {
@@ -168,12 +164,11 @@ export const getKeywords = createAsyncThunk(
             return rejectWithValue(e.message);
         }
     }
-)
-
+);
 
 export const getSearchedMovies = createAsyncThunk(
     'movieSlice/getSearchedMovies',
-    async ({data, actual_page}, {rejectWithValue, dispatch}) => {
+    async ({data, actual_page}, {rejectWithValue}) => {
         try {
             const query_const = `query=${data.name}&page=${actual_page}`
             return movieService.getByQuery(query_const)
@@ -185,7 +180,7 @@ export const getSearchedMovies = createAsyncThunk(
 
 export const getNextSearchedMovies = createAsyncThunk(
     'movieSlice/getNextSearchedMovies',
-    async ({data, actual_page}, {rejectWithValue, dispatch}) => {
+    async ({data, actual_page}, {rejectWithValue}) => {
         try {
             const query_const = `query=${data.name}&page=${actual_page+1}`
             return movieService.getByQuery(query_const)
@@ -197,7 +192,7 @@ export const getNextSearchedMovies = createAsyncThunk(
 
 export const getPreviousSearchedMovies = createAsyncThunk(
     'movieSlice/getPreviousSearchedMovies',
-    async ({data, actual_page}, {rejectWithValue, dispatch}) => {
+    async ({data, actual_page}, {rejectWithValue}) => {
         try {
             const query_const = `query=${data.name}&page=${actual_page-1}`
             return movieService.getByQuery(query_const)
@@ -211,20 +206,9 @@ const movieSlice = createSlice({
     name: 'movieSlice',
     initialState,
     reducers: {
-        clearKeywords: ((state) => {
-            state.keywords.length = 0;
-            console.log(state.keywords);
-        }),
 
         clearActualPage: (state => {
             state.actual_page = 1;
-        }),
-
-        addMoviesResults: ((state, action) => {
-            state.movies_results = {
-                pages: action.payload.total_pages,
-                results: action.payload.total_results
-            }
         }),
 
         saveDataFromInput: ((state, action) => {
@@ -235,22 +219,13 @@ const movieSlice = createSlice({
             state.keywords = action.payload.keyW;
         }),
 
-        incrementPage: ((state) => {
-            if (state.actual_page <= state.movies_results.pages) {
-                state.actual_page += 1;
-            }
-        }),
-
-        decrementPage: (state => {
-            if (state.actual_page > 1)
-                state.actual_page -= 1;
-        }),
-
         saveMovieShort: ((state, action) => {
              state.movie_short = action.payload.movie_short
         })
+
     },
     extraReducers: {
+
         [getMovies.pending]: (state) => {
             state.status = 'pending';
         },
@@ -262,22 +237,13 @@ const movieSlice = createSlice({
                 results: action.payload.total_results
             }
         },
-        [getMovies.rejected]: (state, action) => {
-            state.status = 'rejected'
-            state.error = action.payload;
-        },
 //--------------------------------------------------------
         [getGenres.pending]: (state) => {
             state.status = 'pending';
         },
         [getGenres.fulfilled]: (state, action) => {
             state.status = 'fulfilled';
-            // console.log(action);
             state.genres = action.payload.genres;
-        },
-        [getGenres.rejected]: (state, action) => {
-            state.status = 'rejected'
-            state.error = action.payload;
         },
 //--------------------------------------------------------
         [getMovieById.pending]: (state) => {
@@ -285,13 +251,7 @@ const movieSlice = createSlice({
         },
         [getMovieById.fulfilled]: (state, action) => {
             state.status = 'fulfilled';
-            // console.log(action.payload);
             state.movie = action.payload;
-            // console.log(state.movie);
-        },
-        [getMovieById.rejected]: (state, action) => {
-            state.status = 'rejected'
-            state.error = action.payload;
         },
 //--------------------------------------------------------
         [getFilteredMovies.pending]: (state) => {
@@ -305,10 +265,6 @@ const movieSlice = createSlice({
                 results: action.payload.total_results
             }
         },
-        [getFilteredMovies.rejected]: (state, action) => {
-            state.status = 'rejected'
-            state.error = action.payload;
-        },
 //--------------------------------------------------------
         [getSearchedMovies.pending]: (state) => {
             state.status = 'pending';
@@ -321,10 +277,6 @@ const movieSlice = createSlice({
                 results: action.payload.total_results
             }
         },
-        [getSearchedMovies.rejected]: (state, action) => {
-            state.status = 'rejected'
-            state.error = action.payload;
-        },
 //--------------------------------------------------------
         [getKeywords.pending]: (state) => {
             state.status = 'pending';
@@ -332,10 +284,6 @@ const movieSlice = createSlice({
         [getKeywords.fulfilled]: (state, action) => {
             state.status = 'fulfilled';
             state.keywords = action.payload.results;
-        },
-        [getKeywords.rejected]: (state, action) => {
-            state.status = 'rejected'
-            state.error = action.payload;
         },
 //--------------------------------------------------------
         [getNextSearchedMovies.pending]: (state) => {
@@ -346,10 +294,6 @@ const movieSlice = createSlice({
             state.movies = action.payload.results;
             state.actual_page = state.actual_page+1
         },
-        [getNextSearchedMovies.rejected]: (state, action) => {
-            state.status = 'rejected'
-            state.error = action.payload;
-        },
 //--------------------------------------------------------
         [getPreviousSearchedMovies.pending]: (state) => {
             state.status = 'pending';
@@ -358,10 +302,6 @@ const movieSlice = createSlice({
             state.status = 'fulfilled';
             state.movies = action.payload.results;
             state.actual_page = state.actual_page-1
-        },
-        [getPreviousSearchedMovies.rejected]: (state, action) => {
-            state.status = 'rejected'
-            state.error = action.payload;
         },
 //--------------------------------------------------------
         [getNextFilteredMovies.pending]: (state) => {
@@ -372,10 +312,6 @@ const movieSlice = createSlice({
             state.movies = action.payload.results;
             state.actual_page = state.actual_page+1
         },
-        [getNextFilteredMovies.rejected]: (state, action) => {
-            state.status = 'rejected'
-            state.error = action.payload;
-        },
 //--------------------------------------------------------
         [getPreviousFilteredMovies.pending]: (state) => {
             state.status = 'pending';
@@ -385,19 +321,11 @@ const movieSlice = createSlice({
             state.movies = action.payload.results;
             state.actual_page = state.actual_page-1
         },
-        [getPreviousFilteredMovies.rejected]: (state, action) => {
-            state.status = 'rejected'
-            state.error = action.payload;
-        },
     }
 });
 
 export const {
-    clearKeywords,
-    addMoviesResults,
     saveDataFromInput,
-    decrementPage,
-    incrementPage,
     clearActualPage,
     saveKeyWords,
     saveMovieShort,
