@@ -60,6 +60,7 @@
 
 .filter-form-input-genre {
     display: flex;
+    background-color: black;
 }
 
 .filter-form-input-genres select {
