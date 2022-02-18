@@ -2,6 +2,7 @@
     background-color: bisque;
     border-radius: 10px;
     box-shadow: 0 0 3px 3px dimgrey;
+    height: fit-content;
 }
 
 .movie-wrapper {
@@ -96,5 +97,5 @@
 .movie-details-page {
     box-sizing: border-box;
     width: 93vw;
-    height: 80vh;
+    height: auto;
 }

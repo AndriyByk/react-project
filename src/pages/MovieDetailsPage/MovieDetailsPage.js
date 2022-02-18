@@ -14,7 +14,9 @@ const MovieDetailsPage = () => {
     const {state} = useLocation();
 
     const focus = useRef(null);
-    const executeScroll = () => focus.current.scrollIntoView()
+    const executeScroll = () => focus.current.scrollIntoView(
+        {block: "center", inline: "nearest", behavior: "smooth"}
+    );
 
     useEffect(() => {
         if (!state) {
@@ -32,9 +34,9 @@ const MovieDetailsPage = () => {
     }, [movie_short])
 
     return (
-        <div className={'movie-details-short'}>
-            <div className={'movie-details-short-text-picture'}>
-                <div ref={focus} className={'movie-details-short-image'}><img
+        <div ref={focus} className={'movie-details-short'}>
+            <div className={'movie-details-short-picture'}>
+                <div className={'movie-details-short-image'}><img
                     src={baseImgURL + imgSize.backdrop_original + movie_short.backdrop_path} alt=""/></div>
             </div>
             <div className={'movie-details-short-text'}>

@@ -1,27 +1,29 @@
 .movie-details-short {
-    position: relative;
     display: flex;
     row-gap: 10px;
-    height: 80vh;
     margin: 50px 20px 20px 20px;
 }
 
-.movie-details-short-text-picture {
-    width: 65%;
+.movie-details-short-picture {
+    flex-grow: 5;
 }
 
-.movie-details-short-text-picture img {
+.movie-details-short-image {
+    width: 100%
+}
+
+.movie-details-short-image img {
     box-shadow: 10px 0 50px 1px #000000;
-    width: 100%;
+    max-width: 50vw;
 }
 
 .movie-details-short-text {
-    left: 65%;
-    position: absolute;
     display: flex;
     flex-direction: column;
     row-gap: 20px;
     padding-top: 20px;
+    /*align-items: center;*/
+    justify-content: center;
 }
 
 .movie-details-short-text > div {
